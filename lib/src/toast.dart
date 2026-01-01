@@ -23,6 +23,9 @@ class ToastManager {
   static final _queue = Queue<_ToastJob>();
   static _ToastJob? _currentJob;
 
+  ///The root overlay is the overlay provided by [WidgetsApp] and rarely gets dismounted
+  static late OverlayState _rootOverlayState;
+
   /// Shows a toast with the given [content] widget.
   ///
   /// The [context] must have an [Overlay] ancestor.
@@ -48,7 +51,6 @@ class ToastManager {
       _ToastJob(
         key: key,
         fadeDuration: fadeDuration,
-        context: context,
         duration: duration,
         alignment: alignment ?? themeAlignment,
         inset: inset ?? themeInset,
@@ -57,6 +59,9 @@ class ToastManager {
         content: content,
       ),
     );
+
+    //refresh the root overlay state just in case the root [WidgetsApp] got switched
+    _rootOverlayState = Overlay.of(context, rootOverlay: true);
 
     if (_currentJob == null) {
       _showNext();
@@ -81,13 +86,6 @@ class ToastManager {
 
     _currentJob = _queue.removeFirst();
 
-    if (!_currentJob!.context.mounted) {
-      _showNext();
-      return;
-    }
-
-    final overlay = Overlay.of(_currentJob!.context);
-
     late OverlayEntry entry;
     entry = OverlayEntry(
       builder: (_) => _ToastWidget(
@@ -95,19 +93,17 @@ class ToastManager {
         job: _currentJob!,
         onFinished: () {
           entry.remove();
-          _currentJob = null;
           _showNext();
         },
       ),
     );
-    overlay.insert(entry);
+    _rootOverlayState.insert(entry);
   }
 }
 
 /// Holds all the information related to one toasts lifespan
 class _ToastJob {
   final GlobalKey<_ToastWidgetState> key;
-  final BuildContext context;
   final EdgeInsets inset;
   final Duration duration;
   final Duration fadeDuration;
@@ -119,7 +115,6 @@ class _ToastJob {
   _ToastJob({
     required this.key,
     required this.inset,
-    required this.context,
     required this.duration,
     required this.fadeDuration,
     required this.alignment,
