@@ -26,7 +26,7 @@ class ToastManager {
   static void show(
     BuildContext context, {
     Duration duration = const Duration(seconds: 3),
-    ToastAnimation animation = const FadeAnimation(),
+    ToastAnimation? animation,
     ToastAlignment? alignment,
     EdgeInsets? inset,
     bool isDismissible = true,
@@ -36,13 +36,14 @@ class ToastManager {
     final theme = ToastTheme.of(context);
 
     final themeInset = theme.insets ?? EdgeInsets.all(16);
-    final themeAlignment = theme.alignment ?? ToastAlignment.bottom;
+    final themeAlignment = theme.alignment ?? .top;
+    final themeAnimation = theme.animation ?? const FadeAnimation();
 
     final key = GlobalKey<_ToastWidgetState>();
     _queue.add(
       _ToastJob(
         key: key,
-        animation: animation,
+        animation: animation ?? themeAnimation,
         duration: duration,
         alignment: alignment ?? themeAlignment,
         inset: inset ?? themeInset,
@@ -212,43 +213,48 @@ class _ToastPositioned extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (alignment) {
       .top => Positioned(
-          top: inset.top,
-          left: inset.left,
-          right: inset.right,
-          child: child,
-        ),
+        top: inset.top,
+        left: inset.left,
+        right: inset.right,
+        child: child,
+      ),
       .topLeft => Positioned(top: inset.top, left: inset.left, child: child),
-      .topRight =>
-        Positioned(top: inset.top, right: inset.right, child: child),
+      .topRight => Positioned(top: inset.top, right: inset.right, child: child),
       .center => Positioned(
-          top: inset.top,
-          bottom: inset.bottom,
-          left: inset.left,
-          right: inset.right,
-          child: child,
-        ),
+        top: inset.top,
+        bottom: inset.bottom,
+        left: inset.left,
+        right: inset.right,
+        child: child,
+      ),
       .centerLeft => Positioned(
-          top: inset.top,
-          bottom: inset.bottom,
-          left: inset.left,
-          child: child,
-        ),
+        top: inset.top,
+        bottom: inset.bottom,
+        left: inset.left,
+        child: child,
+      ),
       .centerRight => Positioned(
-          top: inset.top,
-          bottom: inset.bottom,
-          right: inset.right,
-          child: child,
-        ),
-      .bottomLeft =>
-        Positioned(bottom: inset.bottom, left: inset.left, child: child),
-      .bottomRight =>
-        Positioned(bottom: inset.bottom, right: inset.right, child: child),
+        top: inset.top,
+        bottom: inset.bottom,
+        right: inset.right,
+        child: child,
+      ),
+      .bottomLeft => Positioned(
+        bottom: inset.bottom,
+        left: inset.left,
+        child: child,
+      ),
+      .bottomRight => Positioned(
+        bottom: inset.bottom,
+        right: inset.right,
+        child: child,
+      ),
       _ => Positioned(
-          bottom: inset.bottom,
-          left: inset.left,
-          right: inset.right,
-          child: child,
-        ),
+        bottom: inset.bottom,
+        left: inset.left,
+        right: inset.right,
+        child: child,
+      ),
     };
   }
 }

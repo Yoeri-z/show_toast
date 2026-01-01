@@ -15,8 +15,8 @@ void showToast(
   BuildContext context, {
   required Widget content,
   Duration duration = const Duration(seconds: 3),
-  ToastAnimation animation = const ScaleAnimation(),
-  ToastAlignment alignment = .top,
+  ToastAnimation? animation,
+  ToastAlignment? alignment,
   bool isDismissible = true,
   bool ignorePointer = false,
 }) {
@@ -25,8 +25,8 @@ void showToast(
     duration: duration,
     animation: animation,
     alignment: alignment,
-    isDismissible: true,
-    ignorePointer: false,
+    isDismissible: isDismissible,
+    ignorePointer: ignorePointer,
     content: content,
   );
 }
@@ -50,8 +50,8 @@ void showToastMessage(
   required String message,
   required ToastType type,
   Duration duration = const Duration(seconds: 3),
-  ToastAnimation animation = const ScaleAnimation(),
-  ToastAlignment alignment = .bottom,
+  ToastAnimation? animation,
+  ToastAlignment? alignment,
   EdgeInsets inset = const EdgeInsets.all(16),
   bool isDismissible = true,
   bool ignorePointer = false,
@@ -91,8 +91,8 @@ extension ToastContext on BuildContext {
   void showToast({
     required Widget content,
     Duration duration = const Duration(seconds: 3),
-    ToastAnimation animation = const ScaleAnimation(),
-    ToastAlignment alignment = .bottom,
+    ToastAnimation? animation,
+    ToastAlignment? alignment,
     bool isDismissible = true,
     bool ignorePointer = false,
   }) {
@@ -101,8 +101,8 @@ extension ToastContext on BuildContext {
       duration: duration,
       animation: animation,
       alignment: alignment,
-      isDismissible: true,
-      ignorePointer: false,
+      isDismissible: isDismissible,
+      ignorePointer: ignorePointer,
       content: content,
     );
   }
@@ -115,8 +115,8 @@ extension ToastContext on BuildContext {
     required String message,
     required ToastType type,
     Duration duration = const Duration(seconds: 3),
-    ToastAnimation animation = const ScaleAnimation(),
-    ToastAlignment alignment = .bottom,
+    ToastAnimation? animation,
+    ToastAlignment? alignment,
     EdgeInsets inset = const EdgeInsets.all(16),
     bool isDismissible = true,
     bool ignorePointer = false,

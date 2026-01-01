@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'toast.dart';
+import 'toast_alignment.dart';
+import 'toast_animation.dart';
 
 /// Defines the behaviour of toasts and visuals of toast messages.
 ///
@@ -25,6 +26,7 @@ class ToastThemeData with Diagnosticable {
     this.messagePadding,
     this.messageStyle,
     this.spacing,
+    this.animation,
   });
 
   /// The background color for success toast messages.
@@ -56,6 +58,9 @@ class ToastThemeData with Diagnosticable {
 
   /// The default alignment for all toasts.
   final ToastAlignment? alignment;
+
+  /// The default animation for all toasts.
+  final ToastAnimation? animation;
 
   /// The padding the container has in message toast
   final EdgeInsetsGeometry? messagePadding;
@@ -90,6 +95,7 @@ class ToastThemeData with Diagnosticable {
     EdgeInsets? insets,
     TextStyle? messageStyle,
     double? spacing,
+    ToastAnimation? animation,
   }) {
     return ToastThemeData(
       successBackgroundColor:
@@ -113,6 +119,7 @@ class ToastThemeData with Diagnosticable {
       insets: insets ?? this.insets,
       messageStyle: messageStyle,
       spacing: spacing,
+      animation: animation ?? this.animation,
     );
   }
 
@@ -134,27 +141,29 @@ class ToastThemeData with Diagnosticable {
         other.insets == insets &&
         other.messagePadding == messagePadding &&
         other.messageStyle == messageStyle &&
-        other.spacing == spacing;
+        other.spacing == spacing &&
+        other.animation == animation;
   }
 
   @override
   int get hashCode => Object.hash(
-    successBackgroundColor,
-    warningBackgroundColor,
-    neutralBackgroundColor,
-    successForegroundColor,
-    warningForegroundColor,
-    neutralForegroundColor,
-    successIcon,
-    warningIcon,
-    neutralIcon,
-    alignment,
-    borderRadius,
-    insets,
-    messagePadding,
-    messageStyle,
-    spacing,
-  );
+        successBackgroundColor,
+        warningBackgroundColor,
+        neutralBackgroundColor,
+        successForegroundColor,
+        warningForegroundColor,
+        neutralForegroundColor,
+        successIcon,
+        warningIcon,
+        neutralIcon,
+        alignment,
+        borderRadius,
+        insets,
+        messagePadding,
+        messageStyle,
+        spacing,
+        animation,
+      );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -186,6 +195,7 @@ class ToastThemeData with Diagnosticable {
     properties.add(DiagnosticsProperty('messagePadding', messagePadding));
     properties.add(DiagnosticsProperty('messageStyle', messageStyle));
     properties.add(DiagnosticsProperty('spacing', spacing));
+    properties.add(DiagnosticsProperty('animation', animation));
   }
 }
 
@@ -204,8 +214,8 @@ class ToastTheme extends InheritedWidget {
   ///
   /// If no [ToastTheme] is in scope, an empty [ToastThemeData] is returned.
   static ToastThemeData of(BuildContext context) {
-    final ToastTheme? result = context
-        .dependOnInheritedWidgetOfExactType<ToastTheme>();
+    final ToastTheme? result =
+        context.dependOnInheritedWidgetOfExactType<ToastTheme>();
     return result?.data ?? const ToastThemeData();
   }
 
