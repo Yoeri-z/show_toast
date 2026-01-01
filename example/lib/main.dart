@@ -27,7 +27,6 @@ class MyHomePage extends StatelessWidget {
     context.showToastMessage(
       message: 'This is a toast',
       type: type,
-      //optional
       alignment: .top,
       inset: EdgeInsets.only(top: 70),
     );

@@ -40,7 +40,7 @@ ToastTheme(
 )
 ```
 
-All the properties of `ToastThemeData` with a short description are available [here](https://pub.dev/documentation/toast_messages/latest/toast_messages/ToastThemeData-class.html).
+All the properties of `ToastThemeData` with a short description are available [here](https://pub.dev/documentation/show_toast/latest/show_toast/ToastThemeData-class.html).
 
 ## Closing toasts
 
@@ -54,3 +54,30 @@ ToastManager.clearQueue()
 // close the toast that is currently on screen if there is one.
 ToastManager.dismiss()
 ```
+
+## Animations
+
+This package comes with three prebuilt toast animations.
+
+```
+context.showToast(
+    content: MyToastWidget(),
+    //toast scales up and fades in
+    //this is the default animation
+    animation: ScaleAnimation(),
+)
+
+context.showToast(
+    content: MyToastWidget(),
+    //toast fades in and out
+    animation: FadeAnimation()
+);
+
+context.showToast(
+    content: MyToastWWidget(),
+    //toast slides in from a direction based on its alignment
+    animation: SlideAnimation(),
+)
+```
+
+To make your own animation you can extend and implement the `ToastAnimation` abstract class.

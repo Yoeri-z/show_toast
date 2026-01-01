@@ -3,20 +3,12 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
+import 'toast_alignment.dart';
+import 'toast_animation.dart';
 import 'toast_theme.dart';
 
-/// Denotes the alignment of the toast on the screen.
-enum ToastAlignment {
-  top,
-  bottom,
-  center,
-  topLeft,
-  topRight,
-  bottomLeft,
-  bottomRight,
-  centerLeft,
-  centerRight,
-}
+export 'toast_alignment.dart';
+export 'toast_animation.dart';
 
 /// Manages the toast queue and orchestrates the showing and dismissing of toasts.
 class ToastManager {
@@ -34,7 +26,7 @@ class ToastManager {
   static void show(
     BuildContext context, {
     Duration duration = const Duration(seconds: 3),
-    Duration fadeDuration = const Duration(milliseconds: 350),
+    ToastAnimation animation = const FadeAnimation(),
     ToastAlignment? alignment,
     EdgeInsets? inset,
     bool isDismissible = true,
@@ -50,7 +42,7 @@ class ToastManager {
     _queue.add(
       _ToastJob(
         key: key,
-        fadeDuration: fadeDuration,
+        animation: animation,
         duration: duration,
         alignment: alignment ?? themeAlignment,
         inset: inset ?? themeInset,
@@ -106,7 +98,7 @@ class _ToastJob {
   final GlobalKey<_ToastWidgetState> key;
   final EdgeInsets inset;
   final Duration duration;
-  final Duration fadeDuration;
+  final ToastAnimation animation;
   final ToastAlignment alignment;
   final bool isDismissible;
   final bool ignorePointer;
@@ -116,7 +108,7 @@ class _ToastJob {
     required this.key,
     required this.inset,
     required this.duration,
-    required this.fadeDuration,
+    required this.animation,
     required this.alignment,
     required this.isDismissible,
     required this.ignorePointer,
@@ -139,29 +131,45 @@ class _ToastWidget extends StatefulWidget {
   _ToastWidgetState createState() => _ToastWidgetState();
 }
 
-class _ToastWidgetState extends State<_ToastWidget> {
-  var _opacity = 0.0;
+class _ToastWidgetState extends State<_ToastWidget>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
   Timer? _timer;
+  bool _hiding = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => setState(() => _opacity = 1.0),
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.job.animation.duration,
     );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: widget.job.animation.curve,
+    );
+
+    _controller.forward();
     _timer = Timer(widget.job.duration, hide);
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _controller.dispose();
     super.dispose();
   }
 
   void hide() {
-    if (mounted) {
+    if (mounted && !_hiding) {
+      _hiding = true;
       _timer?.cancel();
-      setState(() => _opacity = 0.0);
+      _controller.reverse().whenComplete(() {
+        if (mounted) {
+          widget.onFinished();
+        }
+      });
     }
   }
 
@@ -171,16 +179,14 @@ class _ToastWidgetState extends State<_ToastWidget> {
       inset: widget.job.inset,
       alignment: widget.job.alignment,
       child: Center(
-        child: GestureDetector(
-          onTap: widget.job.isDismissible ? hide : null,
-          child: IgnorePointer(
-            ignoring: widget.job.ignorePointer,
-            child: AnimatedOpacity(
-              opacity: _opacity,
-              duration: widget.job.fadeDuration,
-              onEnd: () {
-                if (_opacity == 0.0) widget.onFinished();
-              },
+        child: widget.job.animation.build(
+          context,
+          _animation,
+          widget.job.alignment,
+          GestureDetector(
+            onTap: widget.job.isDismissible ? hide : null,
+            child: IgnorePointer(
+              ignoring: widget.job.ignorePointer,
               child: widget.job.content,
             ),
           ),
@@ -206,48 +212,43 @@ class _ToastPositioned extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (alignment) {
       .top => Positioned(
-        top: inset.top,
-        left: inset.left,
-        right: inset.right,
-        child: child,
-      ),
+          top: inset.top,
+          left: inset.left,
+          right: inset.right,
+          child: child,
+        ),
       .topLeft => Positioned(top: inset.top, left: inset.left, child: child),
-      .topRight => Positioned(top: inset.top, right: inset.right, child: child),
+      .topRight =>
+        Positioned(top: inset.top, right: inset.right, child: child),
       .center => Positioned(
-        top: inset.top,
-        bottom: inset.bottom,
-        left: inset.left,
-        right: inset.right,
-        child: child,
-      ),
+          top: inset.top,
+          bottom: inset.bottom,
+          left: inset.left,
+          right: inset.right,
+          child: child,
+        ),
       .centerLeft => Positioned(
-        top: inset.top,
-        bottom: inset.bottom,
-        left: inset.left,
-        child: child,
-      ),
+          top: inset.top,
+          bottom: inset.bottom,
+          left: inset.left,
+          child: child,
+        ),
       .centerRight => Positioned(
-        top: inset.top,
-        bottom: inset.bottom,
-        right: inset.right,
-        child: child,
-      ),
-      .bottomLeft => Positioned(
-        bottom: inset.bottom,
-        left: inset.left,
-        child: child,
-      ),
-      .bottomRight => Positioned(
-        bottom: inset.bottom,
-        right: inset.right,
-        child: child,
-      ),
+          top: inset.top,
+          bottom: inset.bottom,
+          right: inset.right,
+          child: child,
+        ),
+      .bottomLeft =>
+        Positioned(bottom: inset.bottom, left: inset.left, child: child),
+      .bottomRight =>
+        Positioned(bottom: inset.bottom, right: inset.right, child: child),
       _ => Positioned(
-        bottom: inset.bottom,
-        left: inset.left,
-        right: inset.right,
-        child: child,
-      ),
+          bottom: inset.bottom,
+          left: inset.left,
+          right: inset.right,
+          child: child,
+        ),
     };
   }
 }

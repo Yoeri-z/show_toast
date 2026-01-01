@@ -7,7 +7,7 @@ import 'toast_message.dart';
 ///
 /// The [content] is the widget to be displayed inside the toast.
 /// The [duration] specifies how long the toast remains visible.
-/// The [fadeDuration] controls the animation duration for showing and hiding the toast.
+/// The [animation] controls the animation for showing and hiding the toast.
 /// The [alignment] determines the position of the toast on the screen.
 /// If [isDismissible] is true, the toast can be dismissed by tapping.
 /// If [ignorePointer] is true, the toast will not block pointer events to widgets behind it.
@@ -15,15 +15,15 @@ void showToast(
   BuildContext context, {
   required Widget content,
   Duration duration = const Duration(seconds: 3),
-  Duration fadeDuration = const Duration(milliseconds: 350),
-  ToastAlignment alignment = .bottom,
+  ToastAnimation animation = const ScaleAnimation(),
+  ToastAlignment alignment = .top,
   bool isDismissible = true,
   bool ignorePointer = false,
 }) {
   ToastManager.show(
     context,
     duration: duration,
-    fadeDuration: fadeDuration,
+    animation: animation,
     alignment: alignment,
     isDismissible: true,
     ignorePointer: false,
@@ -35,7 +35,7 @@ void showToast(
 ///
 /// The [message] is the text content to display.
 /// The [type] determines the default style (e.g., 'ok', 'info', 'warning') of the toast.
-/// [duration], [fadeDuration], [alignment], [isDismissible], [ignorePointer]
+/// [duration], [animation], [alignment], [isDismissible], [ignorePointer]
 /// function similarly to [showToast].
 ///
 /// [inset] defines the padding from the edges of the screen.
@@ -50,8 +50,8 @@ void showToastMessage(
   required String message,
   required ToastType type,
   Duration duration = const Duration(seconds: 3),
-  Duration fadeDuration = const Duration(milliseconds: 350),
-  ToastAlignment alignment = ToastAlignment.bottom,
+  ToastAnimation animation = const ScaleAnimation(),
+  ToastAlignment alignment = .bottom,
   EdgeInsets inset = const EdgeInsets.all(16),
   bool isDismissible = true,
   bool ignorePointer = false,
@@ -65,7 +65,7 @@ void showToastMessage(
   ToastManager.show(
     context,
     duration: duration,
-    fadeDuration: fadeDuration,
+    animation: animation,
     alignment: alignment,
     inset: inset,
     isDismissible: isDismissible,
@@ -91,15 +91,15 @@ extension ToastContext on BuildContext {
   void showToast({
     required Widget content,
     Duration duration = const Duration(seconds: 3),
-    Duration fadeDuration = const Duration(milliseconds: 350),
-    ToastAlignment alignment = ToastAlignment.bottom,
+    ToastAnimation animation = const ScaleAnimation(),
+    ToastAlignment alignment = .bottom,
     bool isDismissible = true,
     bool ignorePointer = false,
   }) {
     ToastManager.show(
       this,
       duration: duration,
-      fadeDuration: fadeDuration,
+      animation: animation,
       alignment: alignment,
       isDismissible: true,
       ignorePointer: false,
@@ -115,8 +115,8 @@ extension ToastContext on BuildContext {
     required String message,
     required ToastType type,
     Duration duration = const Duration(seconds: 3),
-    Duration fadeDuration = const Duration(milliseconds: 350),
-    ToastAlignment alignment = ToastAlignment.bottom,
+    ToastAnimation animation = const ScaleAnimation(),
+    ToastAlignment alignment = .bottom,
     EdgeInsets inset = const EdgeInsets.all(16),
     bool isDismissible = true,
     bool ignorePointer = false,
@@ -130,7 +130,7 @@ extension ToastContext on BuildContext {
     ToastManager.show(
       this,
       duration: duration,
-      fadeDuration: fadeDuration,
+      animation: animation,
       alignment: alignment,
       inset: inset,
       isDismissible: isDismissible,

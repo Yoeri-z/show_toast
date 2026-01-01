@@ -35,7 +35,6 @@ void main() {
           context,
           content: Text('Message in my toast'),
           duration: Duration(seconds: 3),
-          fadeDuration: Duration(milliseconds: 350),
         ),
       ),
     );
