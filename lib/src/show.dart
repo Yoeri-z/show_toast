@@ -8,7 +8,7 @@ import 'toast_message.dart';
 /// The [content] is the widget to be displayed inside the toast.
 /// The [duration] specifies how long the toast remains visible.
 /// The [fadeDuration] controls the animation duration for showing and hiding the toast.
-/// The [gravity] determines the position of the toast on the screen.
+/// The [alignment] determines the position of the toast on the screen.
 /// If [isDismissible] is true, the toast can be dismissed by tapping.
 /// If [ignorePointer] is true, the toast will not block pointer events to widgets behind it.
 void showToast(
@@ -16,7 +16,7 @@ void showToast(
   required Widget content,
   Duration duration = const Duration(seconds: 3),
   Duration fadeDuration = const Duration(milliseconds: 350),
-  ToastAlignment gravity = ToastAlignment.bottom,
+  ToastAlignment alignment = .bottom,
   bool isDismissible = true,
   bool ignorePointer = false,
 }) {
@@ -24,7 +24,7 @@ void showToast(
     context,
     duration: duration,
     fadeDuration: fadeDuration,
-    alignment: gravity,
+    alignment: alignment,
     isDismissible: true,
     ignorePointer: false,
     content: content,
@@ -92,7 +92,7 @@ extension ToastContext on BuildContext {
     required Widget content,
     Duration duration = const Duration(seconds: 3),
     Duration fadeDuration = const Duration(milliseconds: 350),
-    ToastAlignment gravity = ToastAlignment.bottom,
+    ToastAlignment alignment = ToastAlignment.bottom,
     bool isDismissible = true,
     bool ignorePointer = false,
   }) {
@@ -100,7 +100,7 @@ extension ToastContext on BuildContext {
       this,
       duration: duration,
       fadeDuration: fadeDuration,
-      alignment: gravity,
+      alignment: alignment,
       isDismissible: true,
       ignorePointer: false,
       content: content,

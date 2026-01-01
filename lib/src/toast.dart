@@ -210,47 +210,39 @@ class _ToastPositioned extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (alignment) {
-      ToastAlignment.top => Positioned(
+      .top => Positioned(
         top: inset.top,
         left: inset.left,
         right: inset.right,
         child: child,
       ),
-      ToastAlignment.topLeft => Positioned(
-        top: inset.top,
-        left: inset.left,
-        child: child,
-      ),
-      ToastAlignment.topRight => Positioned(
-        top: inset.top,
-        right: inset.right,
-        child: child,
-      ),
-      ToastAlignment.center => Positioned(
+      .topLeft => Positioned(top: inset.top, left: inset.left, child: child),
+      .topRight => Positioned(top: inset.top, right: inset.right, child: child),
+      .center => Positioned(
         top: inset.top,
         bottom: inset.bottom,
         left: inset.left,
         right: inset.right,
         child: child,
       ),
-      ToastAlignment.centerLeft => Positioned(
+      .centerLeft => Positioned(
         top: inset.top,
         bottom: inset.bottom,
         left: inset.left,
         child: child,
       ),
-      ToastAlignment.centerRight => Positioned(
+      .centerRight => Positioned(
         top: inset.top,
         bottom: inset.bottom,
         right: inset.right,
         child: child,
       ),
-      ToastAlignment.bottomLeft => Positioned(
+      .bottomLeft => Positioned(
         bottom: inset.bottom,
         left: inset.left,
         child: child,
       ),
-      ToastAlignment.bottomRight => Positioned(
+      .bottomRight => Positioned(
         bottom: inset.bottom,
         right: inset.right,
         child: child,

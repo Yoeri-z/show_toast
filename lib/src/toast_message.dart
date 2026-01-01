@@ -89,7 +89,7 @@ class ToastMessage extends StatelessWidget {
         padding: padding ?? themePadding,
         child: Row(
           spacing: themeSpacing,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: .min,
           children: [
             icon ?? Icon(themeIconData, color: themeForegroundColor),
             Text(message, style: textStyle ?? themeTextStyle),
