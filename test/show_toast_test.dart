@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:show_toast/show_toast.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toast_messages/toast_messages.dart';
 
 class SetupWidget extends StatelessWidget {
   const SetupWidget({super.key, required this.toastShower});

@@ -5,21 +5,27 @@ A minimal implementation of toast messages.
 The api of this package is very simple and easy to use:
 
 ```dart
-// Show a toast message with an opinionated and minimal look:
+// Show a toast with any widget content:
+context.showToast(content: MyToastWidget());
+
+// Show a toast message with an opinionated and minimal look
+// fitting with material design by default.
 context.showToastMessage(
     message: 'My message',
     toastType: ToastType.success
 );
 
-// Show a toast with custom content:
-context.showToast(content: MyToastWidget());
 
 // or if you prefer not using context extensions:
-showToastMessage(context, message: 'My message', toastType: ToastType.success);
 showToast(context, MyToastWidget());
+showToastMessage(
+    context,
+    message: 'My message',
+    toastType: ToastType.success
+);
 ```
 
-`showToast` and `showToastMessage` have a lot of properties to customize the look, aligment and behaviour of toasts. The showToastMessage implementation uses material and is not compatible with cupertino, `showToast` should work for any design system.
+`showToast` and `showToastMessage` have a lot of properties to customize the look, aligment and behaviour of toasts.
 
 ## Theming
 

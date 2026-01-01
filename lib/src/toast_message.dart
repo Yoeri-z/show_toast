@@ -68,28 +68,33 @@ class ToastMessage extends StatelessWidget {
       .warning => theme.warningForegroundColor ?? colorScheme.onErrorContainer,
     };
 
-    final themeBorderRadius = theme.borderRadius ?? BorderRadius.circular(4);
+    final themeBorderRadius = theme.borderRadius ?? BorderRadius.circular(50);
 
-    final themePadding = theme.messagePadding ?? EdgeInsets.all(8);
+    final themePadding =
+        theme.messagePadding ??
+        EdgeInsets.symmetric(vertical: 8, horizontal: 12);
 
     final themeTextStyle =
         theme.messageStyle ?? TextStyle(color: themeForegroundColor);
 
     final themeSpacing = theme.spacing ?? 4;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor ?? themeBackgroundColor,
-        borderRadius: borderRadius ?? themeBorderRadius,
-      ),
-      padding: padding ?? themePadding,
-      child: Row(
-        spacing: themeSpacing,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          icon ?? Icon(themeIconData, color: themeForegroundColor),
-          Text(message, style: textStyle ?? themeTextStyle),
-        ],
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor ?? themeBackgroundColor,
+          borderRadius: borderRadius ?? themeBorderRadius,
+        ),
+        padding: padding ?? themePadding,
+        child: Row(
+          spacing: themeSpacing,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            icon ?? Icon(themeIconData, color: themeForegroundColor),
+            Text(message, style: textStyle ?? themeTextStyle),
+          ],
+        ),
       ),
     );
   }

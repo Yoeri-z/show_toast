@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  toast_messages:
+  show_toast:
     path: ../
   cupertino_icons: ^1.0.8
 

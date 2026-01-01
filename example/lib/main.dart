@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toast_messages/toast_messages.dart';
+import 'package:show_toast/show_toast.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,31 +12,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.blue)),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _showMessage(BuildContext context, ToastType type) {
     context.showToastMessage(
       message: 'This is a toast',
-      type: .neutral,
+      type: type,
       //optional
       alignment: .top,
       inset: EdgeInsets.only(top: 70),
@@ -49,24 +39,28 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: .center,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            FilledButton(
+              onPressed: () => _showMessage(context, .success),
+              child: Text('Show success toast'),
+            ),
+            FilledButton(
+              onPressed: () => _showMessage(context, .neutral),
+              child: Text('Show neutral toast'),
+            ),
+            FilledButton(
+              onPressed: () => _showMessage(context, .warning),
+              child: Text('Show warning toast'),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
