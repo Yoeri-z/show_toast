@@ -1,7 +1,8 @@
 ## 0.3.0
 
-- Added `ToastAnimation` class and some prebuilt implementations
-- Changed toast wrapping structure to use this new `ToastAnimation`
+- Added `ToastAnimation` class and some prebuilt implementations.
+- Changed toast wrapping structure to use this new `ToastAnimation`.
+- Added animation and aligment of toast the the `ToastThemeData` options.
 
 ## 0.2.1
 

@@ -37,7 +37,7 @@ class ToastManager {
 
     final themeInset = theme.insets ?? EdgeInsets.all(16);
     final themeAlignment = theme.alignment ?? .top;
-    final themeAnimation = theme.animation ?? const FadeAnimation();
+    final themeAnimation = theme.animation ?? const ScaleAnimation();
 
     final key = GlobalKey<_ToastWidgetState>();
     _queue.add(
