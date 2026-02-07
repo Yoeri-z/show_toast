@@ -11,19 +11,23 @@ export 'toast_alignment.dart';
 export 'toast_animation.dart';
 
 /// Manages the toast queue and orchestrates the showing and dismissing of toasts.
-class ToastManager {
-  static final _queue = Queue<_ToastJob>();
-  static _ToastJob? _currentJob;
+final class ToastManager {
+  ToastManager._();
+
+  static final instance = ToastManager._();
+
+  final _queue = Queue<_ToastJob>();
+  _ToastJob? _currentJob;
 
   ///The root overlay is the overlay provided by [WidgetsApp] and rarely gets dismounted
-  static late OverlayState _rootOverlayState;
+  late OverlayState _rootOverlayState;
 
   /// Shows a toast with the given [content] widget.
   ///
   /// The [context] must have an [Overlay] ancestor.
   ///
   /// Prefer using `showToast`, `showToastMessage`, `context.showToast` or `context.showToastMessage` over this.
-  static void show(
+  void show(
     BuildContext context, {
     Duration duration = const Duration(seconds: 3),
     ToastAnimation? animation,
@@ -62,16 +66,16 @@ class ToastManager {
   }
 
   /// Dismiss the current toast on screen
-  static void dismiss() {
+  void dismiss() {
     _currentJob?.key.currentState?.hide();
   }
 
   /// Clear the queue of toasts.
-  static void clearQueue() {
+  void clearQueue() {
     _queue.clear();
   }
 
-  static void _showNext() {
+  void _showNext() {
     if (_queue.isEmpty) {
       _currentJob = null;
       return;

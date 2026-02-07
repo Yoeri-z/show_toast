@@ -31,7 +31,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       SetupWidget(
-        toastShower: (context) => ToastManager.show(
+        toastShower: (context) => ToastManager.instance.show(
           context,
           content: Text('Message in my toast'),
           duration: Duration(seconds: 3),

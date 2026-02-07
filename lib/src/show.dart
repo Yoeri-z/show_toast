@@ -20,7 +20,7 @@ void showToast(
   bool isDismissible = true,
   bool ignorePointer = false,
 }) {
-  ToastManager.show(
+  ToastManager.instance.show(
     context,
     duration: duration,
     animation: animation,
@@ -62,7 +62,7 @@ void showToastMessage(
   Color? backgroundColor,
   BorderRadius? borderRadius,
 }) {
-  ToastManager.show(
+  ToastManager.instance.show(
     context,
     duration: duration,
     animation: animation,
@@ -96,7 +96,7 @@ extension ToastContext on BuildContext {
     bool isDismissible = true,
     bool ignorePointer = false,
   }) {
-    ToastManager.show(
+    ToastManager.instance.show(
       this,
       duration: duration,
       animation: animation,
@@ -127,7 +127,7 @@ extension ToastContext on BuildContext {
     Color? backgroundColor,
     BorderRadius? borderRadius,
   }) {
-    ToastManager.show(
+    ToastManager.instance.show(
       this,
       duration: duration,
       animation: animation,
