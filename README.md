@@ -49,10 +49,10 @@ It is also possible to close toasts programmatically.
 
 ```dart
 // clear the queue of toasts
-ToastManager.clearQueue()
+ToastManager.instance.clearQueue()
 
 // close the toast that is currently on screen if there is one.
-ToastManager.dismiss()
+ToastManager.instance.dismiss()
 ```
 
 ## Animations
