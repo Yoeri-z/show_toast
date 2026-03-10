@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'toast_alignment.dart';
@@ -33,6 +34,7 @@ final class ToastManager {
     ToastAnimation? animation,
     ToastAlignment? alignment,
     EdgeInsets? inset,
+    TextStyle? textStyle,
     bool isDismissible = true,
     bool ignorePointer = false,
     required Widget content,
@@ -43,6 +45,9 @@ final class ToastManager {
     final themeAlignment = theme.alignment ?? .top;
     final themeAnimation = theme.animation ?? const ScaleAnimation();
 
+    final directionality = Directionality.maybeOf(context) ?? TextDirection.ltr;
+    final themeTextStyle = DefaultTextStyle.of(context).style;
+
     final key = GlobalKey<_ToastWidgetState>();
     _queue.add(
       _ToastJob(
@@ -51,6 +56,8 @@ final class ToastManager {
         duration: duration,
         alignment: alignment ?? themeAlignment,
         inset: inset ?? themeInset,
+        directionality: directionality,
+        textStyle: textStyle ?? themeTextStyle,
         isDismissible: isDismissible,
         ignorePointer: ignorePointer,
         content: content,
@@ -105,6 +112,8 @@ class _ToastJob {
   final Duration duration;
   final ToastAnimation animation;
   final ToastAlignment alignment;
+  final TextDirection directionality;
+  final TextStyle textStyle;
   final bool isDismissible;
   final bool ignorePointer;
   final Widget content;
@@ -115,6 +124,8 @@ class _ToastJob {
     required this.duration,
     required this.animation,
     required this.alignment,
+    required this.directionality,
+    required this.textStyle,
     required this.isDismissible,
     required this.ignorePointer,
     required this.content,
@@ -192,7 +203,13 @@ class _ToastWidgetState extends State<_ToastWidget>
             onTap: widget.job.isDismissible ? hide : null,
             child: IgnorePointer(
               ignoring: widget.job.ignorePointer,
-              child: widget.job.content,
+              child: Directionality(
+                textDirection: widget.job.directionality,
+                child: DefaultTextStyle(
+                  style: widget.job.textStyle,
+                  child: widget.job.content,
+                ),
+              ),
             ),
           ),
         ),

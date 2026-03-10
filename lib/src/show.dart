@@ -17,6 +17,7 @@ void showToast(
   Duration duration = const Duration(seconds: 3),
   ToastAnimation? animation,
   ToastAlignment? alignment,
+  TextStyle? textStyle,
   bool isDismissible = true,
   bool ignorePointer = false,
 }) {
@@ -25,6 +26,7 @@ void showToast(
     duration: duration,
     animation: animation,
     alignment: alignment,
+    textStyle: textStyle,
     isDismissible: isDismissible,
     ignorePointer: ignorePointer,
     content: content,
@@ -93,6 +95,7 @@ extension ToastContext on BuildContext {
     Duration duration = const Duration(seconds: 3),
     ToastAnimation? animation,
     ToastAlignment? alignment,
+    TextStyle? textStyle,
     bool isDismissible = true,
     bool ignorePointer = false,
   }) {
@@ -101,6 +104,7 @@ extension ToastContext on BuildContext {
       duration: duration,
       animation: animation,
       alignment: alignment,
+      textStyle: textStyle,
       isDismissible: isDismissible,
       ignorePointer: ignorePointer,
       content: content,
