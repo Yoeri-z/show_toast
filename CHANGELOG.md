@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Added `Directionality` and `DefaultTextStyle` widgets to the toast wrapper widget.
+
 ## 0.3.0
 
 - Added `ToastAnimation` class and some prebuilt implementations.
