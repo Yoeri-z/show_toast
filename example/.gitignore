@@ -38,6 +38,8 @@ migrate_working_dir/
 /android/
 /web/
 /windows/
+/test/
+
 pubspec.lock
 
 # Symbolication related
